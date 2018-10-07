@@ -53,6 +53,6 @@ app.get('/*', (req, res) => res.status(200).json({
 const port = parseInt(config.port, 10) || 9001;
 
 app.listen(port, () => console.log(`Running on localhost: 
-  ${port} Node Env: ${process.env.ENV}`));
+  ${port} Node Env: ${process.env.NODE_ENV}`));
 
 export default app;

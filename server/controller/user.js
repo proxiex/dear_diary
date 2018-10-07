@@ -20,21 +20,30 @@ class UserController {
       avatar, name, email, username, password
     } = req.body;
 
-    User.create({
-      avatar, name, email, username, password: bcrypt.hashSync(password, 10)
-    }).then((user) => {
-      const payload = {
-        id: user._id,
-        email: user.email,
-        username: user.username
-      };
+    User.findOne({ email }).then((foundUser) => {
+      if (foundUser.email === email) {
+        return res.status(409).json({
+          status: 'failed',
+          message: `The email address: ${email} is already associated with an account`
+        });
+      }
 
-      const token = Auth.createToken(payload);
+      User.create({
+        avatar, name, email, username, password: bcrypt.hashSync(password, 10)
+      }).then((user) => {
+        const payload = {
+          id: user._id,
+          email: user.email,
+          username: user.username
+        };
 
-      return res.status(201).json({
-        status: 'success',
-        message: 'Signup successfull!',
-        token
+        const token = Auth.createToken(payload);
+
+        return res.status(201).json({
+          status: 'success',
+          message: 'Signup successfull!',
+          token
+        });
       });
     }).catch(err => next(err));
 
