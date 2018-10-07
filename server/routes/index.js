@@ -1,11 +1,8 @@
 import { Router } from 'express';
+import userRoute from './user';
 
 const router = Router();
 
-router.get('/', (req, res) => {
-  res.status(200).json({
-    msg: 'Second middle ware'
-  });
-});
+router.use('/', userRoute);
 
 export default router;
