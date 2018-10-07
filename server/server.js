@@ -46,7 +46,7 @@ app.get('/', (req, res) => res.status(200).json({
   message: 'You are welcome to Dear Diary, please hit a valid endpoint to get started.'
 }));
 
-app.get('/*', (req, res) => res.status(200).json({
+app.use('/*', (req, res) => res.status(200).json({
   message: "This endpoint doesn't exist yet, checkback sometime in future an we may have it"
 }));
 
