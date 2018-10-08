@@ -1,5 +1,5 @@
 # Dear Diary
-## App's Location http://more-recipes27.herokuapp.com/
+## App's Location https://dear-diary.herokuapp.com/
 
 <h3>TECHNOLOGIES USED</h3>
 <hr>
