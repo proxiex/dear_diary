@@ -17,16 +17,21 @@ class Validate {
    *
    * @memberof Validate
    */
-  static isNum(request, response, next) {
-    const { entryId } = request.params;
+  static arachive(request, response, next) {
+    const { entries } = request.body;
+    const archiveData = { entries };
 
-    if (typeof parseInt(entryId, 10) !== 'number') {
-      return response.status(400).json({
-        status: 'failed',
-        message: 'Parameter must be a number!'
-      });
+    const archiveDataRules = {
+      entries: 'required'
+    };
+
+    const validation = new Validator(archiveData, archiveDataRules);
+    if (validation.passes()) {
+      next();
+    } else {
+      const errors = validation.errors.all();
+      return response.status(400).json({ message: errors });
     }
-    return next();
   }
 
   /**
