@@ -94,6 +94,57 @@ class DiaryController {
 
     return this;
   }
+
+  /**
+   *
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   * @returns
+   * @memberof DiaryController
+   * @returns {object} -
+   */
+  modifyEntry(req, res) {
+    const { title, text } = req.body;
+    const { entryId } = req.params;
+    const { id } = req.decoded;
+    const updateData = {};
+    if (title) {
+      updateData.title = title;
+    }
+
+    if (text) {
+      updateData.text = text;
+    }
+
+    // {$set:{name:"Naomi"}}, {new: true}
+    if (Object.keys(updateData).length === 0 && updateData.constructor === Object) {
+      return res.status(200).json({
+        status: 'sucess',
+        message: 'Nothing to update'
+      });
+    }
+    updateData.updatedAt = new Date();
+    Diary.findOneAndUpdate(
+      { user_id: id, _id: entryId },
+      { $set: updateData },
+      { new: true },
+      (err, doc) => {
+        if (err) {
+          return res.status(404).json({
+            status: 'failed',
+            message: 'Entry not found'
+          });
+        }
+        return res.status(200).json({
+          status: 'success',
+          message: 'Entry updated successfully',
+          entry: doc
+        });
+      }
+    );
+    return this;
+  }
 }
 
 const diary = new DiaryController();

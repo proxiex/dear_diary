@@ -15,11 +15,6 @@ const diarySchema = Schema({
   }
 });
 
-diarySchema.method('update', (updates, callback) => {
-  Object.assign(this, updates, { updatedAt: new Date() });
-  this.save(callback);
-});
-
 const Diary = mongoose.model('Diary', diarySchema);
 
 export default Diary;
