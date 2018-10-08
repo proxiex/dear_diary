@@ -120,6 +120,37 @@ class Validate {
       return response.status(400).json({ message: errors });
     }
   }
+
+  /**
+   *
+   *
+   * @static
+   * @param {*} request
+   * @param {*} response
+   * @param {*} next
+   * @memberof Validate
+   * @returns {object} -
+   */
+  static entries(request, response, next) {
+    const { title, text } = request.body;
+    const entryData = {
+      title,
+      text
+    };
+
+    const entryDataRules = {
+      title: 'required|string|min:2',
+      text: 'required|min:6',
+    };
+
+    const validation = new Validator(entryData, entryDataRules);
+    if (validation.passes()) {
+      next();
+    } else {
+      const errors = validation.errors.all();
+      return response.status(400).json({ message: errors });
+    }
+  }
 }
 
 export default Validate;
