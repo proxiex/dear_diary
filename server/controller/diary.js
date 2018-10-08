@@ -15,9 +15,9 @@ class DiaryController {
    */
   addEntry(req, res, next) {
     const { title, text } = req.body;
-    const { _id } = req.decoded;
+    const { id } = req.decoded;
     Diary.create({
-      _id,
+      usere_id: id,
       title,
       text
     }).then(entry => res.status(201).json({
