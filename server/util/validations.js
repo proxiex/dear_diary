@@ -1,5 +1,4 @@
 import Validator from 'validatorjs';
-import { errorFunction } from './errorHandler';
 /**
  *
  *
@@ -18,11 +17,14 @@ class Validate {
    *
    * @memberof Validate
    */
-  static id(request, response, next) {
-    const { id } = request.params;
+  static isNum(request, response, next) {
+    const { entryId } = request.params;
 
-    if (Number.isNaN(id)) {
-      return errorFunction('Parameter must be a number!', 400);
+    if (typeof parseInt(entryId, 10) !== 'number') {
+      return response.status(400).json({
+        status: 'failed',
+        message: 'Parameter must be a number!'
+      });
     }
     return next();
   }
