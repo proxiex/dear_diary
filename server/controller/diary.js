@@ -64,6 +64,36 @@ class DiaryController {
 
     return this;
   }
+
+  /**
+   *
+   *
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   * @memberof DiaryController
+   * @returns {object} -
+   */
+  getEntry(req, res) {
+    const { entryId } = req.params;
+    const { id } = req.decoded;
+    Diary.find({})
+      .where({ user_id: id, _id: entryId })
+      .exec((err, entry) => {
+        if (err) {
+          return res.status(404).json({
+            status: 'failed',
+            message: 'Entry not found'
+          });
+        }
+        return res.status(200).json({
+          status: 'sucess',
+          entry
+        });
+      });
+
+    return this;
+  }
 }
 
 const diary = new DiaryController();
