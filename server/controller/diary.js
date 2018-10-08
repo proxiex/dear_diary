@@ -145,6 +145,51 @@ class DiaryController {
     );
     return this;
   }
+
+  /**
+   *
+   * @param {*} req
+   * @param {*} res
+   * @returns
+   * @memberof DiaryController
+   * @returns {object} -
+   */
+  archiveEntry(req, res) {
+    const { entries } = req.body;
+    let criteria;
+    let msg = 'Not found';
+    if (typeof entries === 'string') {
+      criteria = {
+        _id: { $in: entries }
+      };
+    } else if (typeof entries === 'object') {
+      criteria = {
+        _id: entries
+      };
+
+      msg = entries.length > 1 ? "One or more of the entry id's was not found!" : msg;
+    }
+    Diary.updateMany(criteria, { archive: true }, null, (err) => {
+      if (err) {
+        return res.status(404).json({
+          status: 'failed',
+          message: msg
+        });
+      }
+      Diary.find(criteria, (err, updated) => {
+        if (err) {
+          return res.status(400).josn({
+            err
+          });
+        }
+        return res.status(200).json({
+          entries: updated
+        });
+      });
+    });
+
+    return this;
+  }
 }
 
 const diary = new DiaryController();

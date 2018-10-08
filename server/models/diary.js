@@ -9,6 +9,10 @@ const diarySchema = Schema({
     type: Date,
     default: Date.now
   },
+  archive: {
+    type: Boolean,
+    default: false
+  },
   updatedAt: {
     type: Date,
     default: Date.now
