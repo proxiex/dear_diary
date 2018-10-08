@@ -1,5 +1,7 @@
 import userController from './user';
+import diaryController from './diary';
 
 export {
-  userController
+  userController,
+  diaryController
 };
