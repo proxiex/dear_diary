@@ -5,10 +5,6 @@ const diarySchema = Schema({
   user_id: { type: Schema.Types.ObjectId, ref: 'User' },
   title: String,
   text: String,
-  private: {
-    type: Boolean,
-    default: true
-  },
   createdAt: {
     type: Date,
     default: Date.now
